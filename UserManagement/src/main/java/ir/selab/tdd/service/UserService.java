@@ -51,6 +51,7 @@ public class UserService {
 
     public boolean changeUserEmail(String username, String newEmail) {
         User user = repository.getUserByUsername(username);
+
         if (user == null) {
             return false;
         }
@@ -59,7 +60,10 @@ public class UserService {
         if (userByEmail != null) {
             return false; //email already exists.
         }
+
+        repository.removeUser(user.getUsername());
         user.setEmail(newEmail);
+        repository.addUser(user);
         return true;
     }
 }
