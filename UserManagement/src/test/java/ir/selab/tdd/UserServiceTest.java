@@ -107,7 +107,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getAllUsers__ShouldReturnFalse() {
+    public void getAllUsers__ShouldPass() {
         int oldUserCount = userService.getAllUsers().size();
 
         userService.removeUser("admin");
@@ -115,5 +115,23 @@ public class UserServiceTest {
 
         userService.registerUser("admin", "1234");
         assertEquals(oldUserCount, userService.getAllUsers().size());
+    }
+
+    @Test
+    public void changeExistingUserEmail__ShouldReturnTrue() {
+        boolean result = userService.changeUserEmail("amirhossein", "test@test.com");
+        assertTrue(result);
+    }
+
+    @Test
+    public void changeNonExistingUserEmail__ShouldReturnFalse() {
+        boolean result = userService.changeUserEmail("test_a", "test@test.com");
+        assertFalse(result);
+    }
+
+    @Test
+    public void changeExistingUserEmailToDuplicatedEmail__ShouldReturnFalse() {
+        boolean result = userService.changeUserEmail("amirhossein", "amk_amir82@yahoo.com");
+        assertFalse(result);
     }
 }
