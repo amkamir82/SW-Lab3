@@ -16,8 +16,10 @@ public class UserRepository {
             throw new IllegalArgumentException("Two users can not have the same username");
         }));
 
-        // TODO: implement (Some users may not have email!)
-        this.usersByEmail = new HashMap<>();
+        this.usersByEmail = users.stream().filter(user -> user.getEmail() != null && !user.getEmail().isEmpty())
+                .collect(Collectors.toMap(User::getEmail, u -> u, (u1, u2) -> {
+                    throw new IllegalArgumentException("Two users cannot have the same email");
+                }));
     }
 
     public User getUserByUsername(String username) {
@@ -25,16 +27,19 @@ public class UserRepository {
     }
 
     public User getUserByEmail(String email) {
-        // TODO: implement
-        return null;
+        return usersByEmail.get(email);
     }
 
     public boolean addUser(User user) {
-        if (usersByUserName.containsKey(user.getUsername())) {
+        if (usersByUserName.containsKey(user.getUsername()) ||
+                (user.getEmail() != null && !user.getEmail().isEmpty() && usersByEmail.containsKey(user.getEmail()))) {
             return false;
         }
-        // TODO: implement check email duplication
+
         usersByUserName.put(user.getUsername(), user);
+        if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+            usersByEmail.put(user.getEmail(), user);
+        }
         return true;
     }
 

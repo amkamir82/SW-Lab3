@@ -19,6 +19,9 @@ public class UserServiceTest {
         userService = new UserService(userRepository);
         userService.registerUser("admin", "1234");
         userService.registerUser("ali", "qwert");
+        userService.registerUser("amirmahdi", "kousheshi", "amk_amir82@yahoo.com");
+        userService.registerUser("amirhossein", "arabzadeh", "amirarab888@yahoo.com");
+        userService.registerUser("ahmadreza", "khenari", "arezekhanari@gmail.com");
     }
 
     @Test
@@ -38,6 +41,24 @@ public class UserServiceTest {
     }
 
     @Test
+    public void createNewUserWithEmail_ShouldSuccess() {
+        String username = "test_a_usrnm";
+        String password = "test_a_psw";
+        String email = "test@test.com";
+        boolean b = userService.registerUser(username, password, email);
+        assertTrue(b);
+    }
+
+    @Test
+    public void createNewDuplicateUserWithEmail__ShouldFail() {
+        String username = "test_a";
+        String password = "test_a";
+        String email = "amk_amir82@yahoo.com";
+        boolean b = userService.registerUser(username, password, email);
+        assertFalse(b);
+    }
+
+    @Test
     public void loginWithValidUsernameAndPassword__ShouldSuccess() {
         boolean login = userService.loginWithUsername("admin", "1234");
         assertTrue(login);
@@ -52,6 +73,24 @@ public class UserServiceTest {
     @Test
     public void loginWithInvalidUsernameAndInvalidPassword__ShouldFail() {
         boolean login = userService.loginWithUsername("ahmad", "abcd");
+        assertFalse(login);
+    }
+
+    @Test
+    public void loginWithValidEmailAndPassword__ShouldSuccess() {
+        boolean login = userService.loginWithEmail("amk_amir82@yahoo.com", "kousheshi");
+        assertTrue(login);
+    }
+
+    @Test
+    public void loginWithValidEmailAndInvalidPassword__ShouldFail() {
+        boolean login = userService.loginWithEmail("amirarab888@yahoo.com", "khenari");
+        assertFalse(login);
+    }
+
+    @Test
+    public void loginWithInvalidEmailAndInvalidPassword__ShouldFail() {
+        boolean login = userService.loginWithEmail("test@test.com", "test");
         assertFalse(login);
     }
 }
