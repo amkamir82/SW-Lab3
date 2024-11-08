@@ -31,11 +31,15 @@ public class UserRepository {
     }
 
     public boolean addUser(User user) {
-        if (usersByUserName.containsKey(user.getUsername())) {
+        if (usersByUserName.containsKey(user.getUsername()) ||
+                (user.getEmail() != null && !user.getEmail().isEmpty() && usersByEmail.containsKey(user.getEmail()))) {
             return false;
         }
-        // TODO: implement check email duplication
+
         usersByUserName.put(user.getUsername(), user);
+        if (user.getEmail() != null && !user.getEmail().isEmpty()) {
+            usersByEmail.put(user.getEmail(), user);
+        }
         return true;
     }
 
