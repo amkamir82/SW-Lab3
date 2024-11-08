@@ -134,4 +134,22 @@ public class UserServiceTest {
         boolean result = userService.changeUserEmail("amirhossein", "amk_amir82@yahoo.com");
         assertFalse(result);
     }
+
+    @Test
+    public void changeExistingUserEmailThenLogin__ShouldReturnTrue() {
+        boolean result = userService.changeUserEmail("amirhossein", "test@test.com");
+        assertTrue(result);
+
+        result = userService.loginWithEmail("test@test.com", "arabzadeh");
+        assertTrue(result);
+    }
+
+    @Test
+    public void changeExistingUserEmailThenLoginWithPreviousEmail__ShouldReturnFalse() {
+        boolean result = userService.changeUserEmail("amirhossein", "test@test.com");
+        assertTrue(result);
+
+        result = userService.loginWithEmail("amirarab888@yahoo.com", "arabzadeh");
+        assertFalse(result);
+    }
 }
