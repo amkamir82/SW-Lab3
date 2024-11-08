@@ -105,4 +105,15 @@ public class UserServiceTest {
         boolean result = userService.removeUser("test_a");
         assertFalse(result);
     }
+
+    @Test
+    public void getAllUsers__ShouldReturnFalse() {
+        int oldUserCount = userService.getAllUsers().size();
+
+        userService.removeUser("admin");
+        assertEquals(oldUserCount - 1, userService.getAllUsers().size());
+
+        userService.registerUser("admin", "1234");
+        assertEquals(oldUserCount, userService.getAllUsers().size());
+    }
 }
