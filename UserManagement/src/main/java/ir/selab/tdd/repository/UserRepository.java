@@ -2,6 +2,7 @@ package ir.selab.tdd.repository;
 
 import ir.selab.tdd.domain.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,16 @@ public class UserRepository {
             usersByEmail.remove(user.getEmail());
         }
         return true;
+    }
+
+    public List<User> getAllUsers() {
+        Map<String, User> mergedMap = new HashMap<>(usersByUserName);
+
+        for (User user : usersByEmail.values()) {
+            mergedMap.putIfAbsent(user.getUsername(), user);
+        }
+
+        return new ArrayList<>(mergedMap.values());
     }
 
     public int getUserCount() {
