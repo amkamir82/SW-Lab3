@@ -77,6 +77,23 @@ public class UserRepositoryTest {
     }
 
     @Test
+    public void addNewUserEmptyEmail__ShouldIncreaseUserCount() {
+        int oldUserCount = repository.getUserCount();
+
+        // Given
+        String username = "test_a";
+        String password = "test_psw";
+        String email = "";
+        User newUser = new User(username, password, email);
+
+        // When
+        repository.addUser(newUser);
+
+        // Then
+        assertEquals(oldUserCount + 1, repository.getUserCount());
+    }
+
+    @Test
     public void getContainingUserByEmail__ShouldReturn() {
         User ali = repository.getUserByEmail("amk_amir82@yahoo.com");
         assertNotNull(ali);
