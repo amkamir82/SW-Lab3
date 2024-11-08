@@ -93,4 +93,16 @@ public class UserServiceTest {
         boolean login = userService.loginWithEmail("test@test.com", "test");
         assertFalse(login);
     }
+
+    @Test
+    public void removeExistingUser__ShouldReturnTrue() {
+        boolean result = userService.removeUser("ahmadreza");
+        assertTrue(result);
+    }
+
+    @Test
+    public void removeNonExistingUser__ShouldReturnFalse() {
+        boolean result = userService.removeUser("test_a");
+        assertFalse(result);
+    }
 }
