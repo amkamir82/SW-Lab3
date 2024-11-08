@@ -75,4 +75,10 @@ public class UserRepositoryTest {
         assertEquals("kousheshi", ali.getPassword());
         assertEquals("amk_amir82@yahoo.com", ali.getEmail());
     }
+
+    @Test
+    public void getNotContainingUserByEmail__ShouldReturnNull() {
+        User user = repository.getUserByEmail("amkamir96@gmail.com");
+        assertNull(user);
+    }
 }
