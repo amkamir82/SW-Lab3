@@ -93,4 +93,27 @@ public class UserServiceTest {
         boolean login = userService.loginWithEmail("test@test.com", "test");
         assertFalse(login);
     }
+
+    @Test
+    public void removeExistingUser__ShouldReturnTrue() {
+        boolean result = userService.removeUser("ahmadreza");
+        assertTrue(result);
+    }
+
+    @Test
+    public void removeNonExistingUser__ShouldReturnFalse() {
+        boolean result = userService.removeUser("test_a");
+        assertFalse(result);
+    }
+
+    @Test
+    public void getAllUsers__ShouldReturnFalse() {
+        int oldUserCount = userService.getAllUsers().size();
+
+        userService.removeUser("admin");
+        assertEquals(oldUserCount - 1, userService.getAllUsers().size());
+
+        userService.registerUser("admin", "1234");
+        assertEquals(oldUserCount, userService.getAllUsers().size());
+    }
 }
