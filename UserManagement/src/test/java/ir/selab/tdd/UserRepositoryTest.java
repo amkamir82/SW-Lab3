@@ -18,7 +18,12 @@ public class UserRepositoryTest {
         List<User> userList = Arrays.asList(
                 new User("admin", "1234"),
                 new User("ali", "qwert"),
-                new User("mohammad", "123asd"));
+                new User("mohammad", "123asd"),
+
+                new User("amirmahdi", "kousheshi", "amk_amir82@yahoo.com"),
+                new User("amirhossein", "arabzadeh", "amirarab888@yahoo.com"),
+                new User("ahmadreza", "khenari", "arezekhanari@gmail.com"));
+
         repository = new UserRepository(userList);
     }
 
@@ -60,5 +65,14 @@ public class UserRepositoryTest {
 
         // Then
         assertEquals(oldUserCount + 1, repository.getUserCount());
+    }
+
+    @Test
+    public void getContainingUserByEmail__ShouldReturn() {
+        User ali = repository.getUserByEmail("amk_amir82@yahoo.com");
+        assertNotNull(ali);
+        assertEquals("amirmahdi", ali.getUsername());
+        assertEquals("kousheshi", ali.getPassword());
+        assertEquals("amk_amir82@yahoo.com", ali.getEmail());
     }
 }
